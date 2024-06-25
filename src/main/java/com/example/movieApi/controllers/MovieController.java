@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.movieApi.dto.MovieDto;
+import com.example.movieApi.exceptions.FileEmptyException;
 import com.example.movieApi.service.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,10 @@ public class MovieController {
     @PostMapping("/add-movie")
     public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, 
                                                     @RequestPart String movieDto ) throws IOException {
+        
+        if(file.isEmpty()) {
+            throw new FileEmptyException("File is empty! Please upload a file.");
+        }
         
         MovieDto dto = convertToMovieDto(movieDto);
         return new ResponseEntity<>(movieService.addMovie(dto, file), HttpStatus.CREATED);
