@@ -22,5 +22,14 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleFileEmptyException(FileEmptyException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ExceptionHandler(RefreshTokenNotFoundException.class)
+    public ProblemDetail handleRefreshTokenNotFoundException(RefreshTokenNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
     
+    @ExceptionHandler(RefreshTokenExpiredException.class)
+    public ProblemDetail handleRefreshTokenExpiredException(RefreshTokenExpiredException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
+    }
 }
